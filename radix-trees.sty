@@ -1,0 +1,173 @@
+
+%% radix-trees.sty -- radix trees (compressed tries) for LaTeX.
+%%
+%% Standalone: drop this file next to your .tex (or anywhere on TEXINPUTS) and
+%% say \usepackage{radix-trees}. It needs only tikz, forest, xcolor, etoolbox
+%% and xparse, and depends on no other personal package.
+%%
+%% A radix tree is a trie whose chains of single-child nodes are collapsed, so
+%% most of the content lives on the *edges* (the string fragments) while the
+%% nodes only mark positions and stored keys. This package adds edge labels
+%% and per-node colours on top of forest's bracket syntax:
+%%
+%%   \radixtree{
+%%     [{}, dot
+%%       [r, elabel=r
+%%         [rom, elabel=om, col=blue
+%%           [romane, elabel=ane, col=blue, word]
+%%         ]
+%%         [rub, elabel=ub, col=orange, ecol=orange, word]
+%%       ]
+%%     ]
+%%   }
+%%
+%% ---------------------------------------------------------------------------
+%% Per-node keys, written after the node text inside its own bracket:
+%%   elabel=<text>  label on the edge coming from the parent
+%%   col=<color>    colour this one node, border + fill, e.g. col=orange
+%%   ecol=<color>   colour the edge coming from the parent, and its label
+%%   word           mark the node as a stored key (double border)
+%%   dot            draw the node as a small dot (handy for an empty root)
+%% Any other tikz key works as usual in forest and wins over col=, e.g.
+%%   [to, draw=orange!80!black, fill=orange!80!black, text=white]
+%%
+%% Options. The same key list is accepted in three places, each overriding the
+%% one above it: as package options, in \radixset{...} (document-wide), and in
+%% \radixtree[...]{...} (that one tree only).
+%%   col=<color>      default colour of every node        (default radixblue)
+%%   sloped           rotate edge labels along their edge; sloped=false turns
+%%                    it back off for a single tree       (default off)
+%%   dir=down|right   direction the tree grows            (default down)
+%%   sep=<len>        sibling distance                    (default 10mm)
+%%   lsep=<len>       level distance                      (default 14mm)
+%%   font=<cmd>       font of the node text               (default \small)
+%%   elabelfont=<cmd> font of the edge labels  (default \footnotesize\ttfamily)
+%%   caption=<text>   wrap the tree in a figure with this caption; with no
+%%                    caption you just get a centered drawing
+%%   label=<name>     \label for that figure, prefixed by labelprefix
+%%   labelprefix=     prefix put in front of label=       (default fig:)
+%%   float=<spec>     float placement of the figure       (default htbp)
+%% A caption containing a comma or an = must be braced: caption={a, b}.
+%%
+%% Note: the per-node keys live in forest's own key namespace under these
+%% short names, so they are shared with every other forest tree in the
+%% document. Rename them below if that ever collides with something of yours.
+%% ---------------------------------------------------------------------------
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{radix-trees}[2026/10/19 v1.0 Radix trees (compressed tries)]
+
+\RequirePackage{tikz}
+\RequirePackage{forest}
+\RequirePackage{xcolor}
+\RequirePackage{etoolbox}
+\RequirePackage{xparse}
+
+\definecolor{radixblue}{RGB}{0,78,146}
+
+\newif\ifradix@sloped
+\newif\ifradix@right
+
+%% ----- The option list -------------------------------------------------
+%% Values live in the /radixtree family. \radixset writes into it at the
+%% current group level, and \radixtree re-reads it inside a group of its own,
+%% so per-tree options never leak into the next tree.
+\pgfkeys{
+	/radixtree/.is family, /radixtree/.cd,
+	col/.initial         = radixblue,
+	sep/.initial         = 10mm,
+	lsep/.initial        = 14mm,
+	font/.initial        = \small,
+	elabelfont/.initial  = \footnotesize\ttfamily,
+	caption/.initial     = {},
+	label/.initial       = {},
+	labelprefix/.initial = {fig:},
+	float/.initial       = {htbp},
+	sloped/.is if        = radix@sloped,
+	dir/.is choice,
+	dir/down/.code       = \radix@rightfalse,
+	dir/right/.code      = \radix@righttrue,
+}
+\newcommand{\radixset}[1]{\pgfkeys{/radixtree/.cd, #1}}
+
+%% ----- Styles ----------------------------------------------------------
+%% Two indirections keep the style bodies below plain, literal key lists (a
+%% macro standing where pgfkeys expects a key name is not reliably expanded):
+%%   * the default node colour is the colour name `radixcurrent', which
+%%     \radixtree \colorlet's to whatever col= says just before drawing;
+%%   * `radix elabel' and `radix dir' are redefined inside \radixtree's group
+%%     when sloped / dir=right are in force.
+\colorlet{radixcurrent}{radixblue}
+\tikzset{radix elabel/.style={midway, font=\radix@elfont,
+			fill=white, inner sep=1.5pt}}
+\forestset{
+	%% per-node colour of the edge label, so ecol= can tint edge and label alike
+	declare toks={radixelcol}{black},
+	radix dir/.style={},            % down; dir=right swaps in the grow' keys
+	radix tree/.style={
+			for tree={
+					draw=radixcurrent!85!black, fill=radixcurrent!10,
+					semithick, rounded corners=2pt,
+					minimum width=7mm, minimum height=7mm, inner sep=2pt,
+					align=center, font=\radix@font,
+					s sep=\radix@sep, l sep=\radix@lsep,
+					edge={draw=radixcurrent!65!black, semithick},
+					radix dir,
+				},
+		},
+	elabel/.style={edge label={node[radix elabel,
+							text=\forestoption{radixelcol}]{#1}}},
+	col/.style   ={draw=#1!85!black, fill=#1!12},
+	ecol/.style  ={edge={draw=#1!85!black, semithick}, radixelcol={#1!70!black}},
+	word/.style  ={double, double=white, double distance=0.8pt},
+	dot/.style   ={circle, minimum width=4mm, minimum height=4mm, inner sep=0pt},
+}
+
+%% ----- Figure wrapper --------------------------------------------------
+%% With a caption the tree becomes a numbered, referenceable figure; without
+%% one it is simply centered, so it can also sit inside a float of your own.
+\newcommand{\radix@figopen}[1]{\begin{figure}[#1]\centering}
+		\newcommand{\radix@figclose}{\end{figure}}
+
+%% ----- \radixtree[<options>]{<forest body>} ----------------------------
+\NewDocumentCommand{\radixtree}{ O{} m }{%
+	\begingroup
+	\pgfkeys{/radixtree/.cd, #1}%
+	\pgfkeysgetvalue{/radixtree/sep}{\radix@sep}%
+	\pgfkeysgetvalue{/radixtree/lsep}{\radix@lsep}%
+	\pgfkeysgetvalue{/radixtree/font}{\radix@font}%
+	\pgfkeysgetvalue{/radixtree/elabelfont}{\radix@elfont}%
+	\pgfkeysgetvalue{/radixtree/caption}{\radix@cap}%
+	\pgfkeysgetvalue{/radixtree/label}{\radix@lab}%
+	\pgfkeysgetvalue{/radixtree/float}{\radix@float}%
+	\pgfkeysgetvalue{/radixtree/labelprefix}{\radix@labpre}%
+	%% expand col= down to a literal colour name before \colorlet sees it
+	\edef\radix@tmp{\noexpand\colorlet{radixcurrent}{\pgfkeysvalueof{/radixtree/col}}}%
+	\radix@tmp
+	\ifradix@sloped
+		\tikzset{radix elabel/.style={midway, above, sloped,
+					font=\radix@elfont, inner sep=1.5pt}}%
+	\fi
+	\ifradix@right
+		\forestset{radix dir/.style={grow'=east, parent anchor=east,
+					child anchor=west, anchor=west}}%
+	\fi
+	\ifdefempty{\radix@cap}
+	{\begin{center}}
+			{\expandafter\radix@figopen\expandafter{\radix@float}}%
+			\begin{forest}
+				radix tree
+				#2
+			\end{forest}%
+			\ifdefempty{\radix@cap}
+			{\end{center}}
+	{\caption{\radix@cap}%
+		\ifdefempty{\radix@lab}{}{\label{\radix@labpre\radix@lab}}%
+		\radix@figclose}%
+	\endgroup
+}
+
+%% Package options are just the same key list.
+\DeclareOption*{\expandafter\radixset\expandafter{\CurrentOption}}
+\ProcessOptions\relax
+
+\endinput

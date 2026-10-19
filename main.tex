@@ -14,7 +14,14 @@
 \usepackage{amssymb}
 \usepackage{subfiles}
 \usepackage{xcolor}
+
+\usepackage[col=teal]{radix-trees}   % package options
+\radixset{dir=down}                 % document-wide
+
 \geometry{left=3cm, right=6cm, top=3cm, bottom=3cm, marginparwidth=4cm} 
+
+
+
 
 \linenumbers
 
@@ -78,7 +85,19 @@ Describe rule one and two here :)
 
 
 \section*{Sorting strings using a Radix tree}
+
 Lukas writes this section
+
+\radixtree{
+[{}, dot
+[r, elabel=r
+[rom, elabel=om, col=blue
+[romane, elabel=ane, col=blue, word]
+]
+[rub, elabel=ub, col=orange, ecol=orange, word]
+]
+]
+}
 
 
 
