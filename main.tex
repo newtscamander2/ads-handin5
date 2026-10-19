@@ -43,4 +43,32 @@
 
 \section*{Comment}
 \section*{Our solution}
+
+\section{Comparing Strings}
+There are two rules describing when a string is lexicographically greater than another string.
+
+\begin{center}
+	\begin{minipage}{12cm}
+		\begin{algorithmic}
+			\Procedure{LexicographicalComparison}{$a$, $b$}
+      \State{$p = |a|$}
+      \State{$q = |b|$}
+
+      \For{$j = 0 \rightarrow min(p,q)-1$}
+      //Comparison rule 1.
+      \If{$a_j > b_j$}
+      \State{\Return{$true$}}
+      \EndIf
+      \EndFor
+      \If{$p > q$}
+      //Comparison rule 2.
+      \State{\Return{$true$}}
+      \EndIf
+
+      \State{\Return{$false$}}
+      \EndProcedure
+    \end{algorithmic}
+  \end{minipage}
+\end{center}
+
 \end{document}
