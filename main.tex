@@ -56,10 +56,11 @@ There are two rules describing when a string is lexicographically greater than a
 
 The two rules describing if a string is greater than another string are as follows
 
-If $a_j > b_j$ then the string $a$ is greater than the string $b$. $j$ goes from $0 \rightarrow \min{|a|, |b|}$.
+If $a_j > b_j$ then the string $a$ is greater than the string $b$. $j$ goes from $0 \rightarrow \min{|a|, |b|}-1$ since our strings are $0$-indexed and therefore goes to their length - 1.
 
 If the first rule is found to be false, then the second rule takes over. This rule determines that the longest of the two strings is the greatest. $|a| > |b|$.
 
+We can now write out or pseudo code for determining if a string is greater than another string.
 \begin{center}
 	\begin{minipage}{12cm}
 		\begin{algorithmic}
