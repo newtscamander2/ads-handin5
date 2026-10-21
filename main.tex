@@ -91,44 +91,102 @@ We can now write out or pseudo code for determining if a string is greater than 
 		\begin{algorithmic}
 			\Procedure{BuildRadixTree}{$S$}
 			\For{$s = 1 \rightarrow |S|$}
-        \State{$a = S[s]$}
-        \State{$node = Y.root$}
+			\State{$a = S[s]$}
+			\State{$node = Y.root$}
 
-        \For{$i = 0 \rightarrow |a|-1$}
-          \If{$a_i < 1$}
-            //Left
-            \State{$node = node.left$}
-          \Else{}
-            //Right
-            \State{$node = node.right$}
-          \EndIf
-          
-        \EndFor
-        //Save
-        \State{$node.exists = 1$} //All nodes are initialized with exists = 0
+			\For{$i = 0 \rightarrow |a|-1$}
+			\If{$a_i < 1$}
+			//Left
+			\State{$node = node.left$}
+			\Else{}
+			//Right
+			\State{$node = node.right$}
+			\EndIf
 
-      \EndFor
+			\EndFor
+			//Save
+			\State{$node.exists = 1$} //All nodes are initialized with exists = 0
+
+			\EndFor
 			\EndProcedure
 		\end{algorithmic}
 	\end{minipage}
 \end{center}
 We can now build our radix three in $\Theta(n)$ time. This is because when building the tree you are required to go through all bits of a strings. The sum of all bits is $n$. The build algorithm is therefore $O(n)$. It is not possible to build a radix tree without going through all the $n$ bits and it is therefore also $\Omega(n)$. Since it is both $O(n)$ and $\Omega(n)$ then it is also $\Theta(n)$.
 
-\section*{Sorting strings using a Radix tree}
+\section*{Sorting strings using a Radix tree Lukas writes this section}
 
-Lukas writes this section
+To sort a radix tree data structure, we can use a simple recursive algorithm called lexicographically-sort-recursive called through a wrapper function called lexicographically-sort since it in the beginning needs to initialize some variables.
+
+\vspace{2mm}
+
+Our algorithm works by initializing an empty string prefix that contains all bits on the current path from the root node to our current node. We have an array called result, and if our current node is the end of a word, i.e. an orange node, we append the prefix to the result array. If x is not the end of a word, then we can simply ignore this, as we are only interested in sorting orange nodes and not blue nodes.
+
+For each node we call the lexicographically-sort-recursive algorithm on both the left child and the right child but we first check if these exists, i.e. being NIL, otherwise we can ignore the respective child/children. We check the left child first because we want our algorithm to sort in lexicographically increasing order.
+
+For the left and right child we extend our result array with a subset of their result, and on each iteration we return the array result.
+
+Since we visit every node exactly once with this algorithm our running time is $\Theta(n)$. We of course assume that the tree is built already for our algorithm to work.
+
+\begin{center}
+	\begin{minipage}{12cm}
+		\begin{algorithmic}
+			\Procedure{lexicographically-sort}{$x$}
+			\State{$prefix=""$}
+
+			\Call{$result =$ lexicographically-sort-recursive}{$x$, $prefix$}
+			\State{$print(result)$}
+
+			\vspace{5mm}
+
+			\EndProcedure{}
+
+			\Procedure{lexicographically-sort-recursive}{$x$, $prefix$}
+			\State{$result = []$}
+
+			\If{$x.isEndOfWord == true$}
+			\State{$result.append(prefix)$}
+			\EndIf{}
+
+			\vspace{3mm}
+			\If{$x.left \neq NIL$}
+			\State{$sLeft=$\Call{lexicographically-sort-recursive}{$x.left$, $prefix + $"0"}}
+			\State{$result.extend(sLeft)$} % https://www.programiz.com/python-programming/methods/list/extend
+			\EndIf{}
+			\vspace{3mm}
+
+			\If{$x.right \neq NIL$}
+			\State{$sRight=$\Call{lexicographically-sort-recursive}{$x.right$, $prefix + $"1"}}
+			\State{$result.extend(sRight)$}
+			\EndIf{}
+
+			\vspace{3mm}
+
+			\State{\Return{$result$}}
+
+			\EndProcedure
+		\end{algorithmic}
+	\end{minipage}
+\end{center}
+
+Here on the radix tree we have added the NIL nodes visually for demonstrational purposes. It would also work to just assign the value null in the code.
+
+
+
+\radixset{dir=down}
 
 \radixtree{
-[{}, dot
-[r, elabel=r
-[rom, elabel=om, col=blue
-[romane, elabel=ane, col=blue, word]
-]
-[rub, elabel=ub, col=orange, ecol=orange, word]
+[{}, elabel=r, col=blue
+[0, elabel=0, col=orange [NIL, col=black][{}, elabel=1, col=blue [NIL, col=black][011, elabel=1, col=orange [NIL, col=black] [NIL, col=black]]]]
+[{}, elabel=1, col=blue [10, elabel=0, col=orange [100, elabel=0, col=orange [NIL, col=black] [NIL, col=black]][{}, elabel=1, col=blue [1011, elabel=1, col=orange [NIL, col=black] [NIL, col=black]]]][NIL, col=black]]
 ]
 ]
 }
 
-
+Output from lexicographically-sort:
+\radixset{dir=right}
+\radixtree{
+[0, col=orange [011, col=orange [10, col=orange [100, col=orange [1011, col=orange]]]]]
+}
 
 \end{document}
