@@ -97,15 +97,15 @@ We can now write out or pseudo code for determining if a string is greater than 
         \For{$i = 0 \rightarrow |a|-1$}
           \If{$a_i < 1$}
             //Left
-            \State{$node = node.Left$}
+            \State{$node = node.left$}
           \Else{}
             //Right
-            \State{$node = node.Right$}
+            \State{$node = node.right$}
           \EndIf
           
         \EndFor
         //Save
-        \State{$node.Exists = 1$} //All nodes are initialized with Exists = 0
+        \State{$node.exists = 1$} //All nodes are initialized with exists = 0
 
       \EndFor
 			\EndProcedure
