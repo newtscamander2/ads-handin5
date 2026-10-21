@@ -89,8 +89,25 @@ We can now write out or pseudo code for determining if a string is greater than 
 \begin{center}
 	\begin{minipage}{12cm}
 		\begin{algorithmic}
-			\Procedure{BuildRadixTree}{$Y$, $a$}
-			
+			\Procedure{BuildRadixTree}{$S$}
+			\For{$s = 1 \rightarrow |S|$}
+        \State{$a = S[s]$}
+        \State{$node = Y.root$}
+
+        \For{$i = 0 \rightarrow |a|-1$}
+          \If{$a_i < 1$}
+            //Left
+            \State{$node = node.Left$}
+          \Else{}
+            //Right
+            \State{$node = node.Right$}
+          \EndIf
+          
+        \EndFor
+        //Save
+        \State{$node.Exists = 1$} //All nodes are initialized with Exists = 0
+
+      \EndFor
 			\EndProcedure
 		\end{algorithmic}
 	\end{minipage}
