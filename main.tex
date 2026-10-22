@@ -151,9 +151,9 @@ To sort a radix tree data structure, we can use a simple recursive algorithm cal
 
 \vspace{2mm}
 
-Our algorithm works by initializing an empty string prefix that contains all bits on the current path from the root node to our current node. We have an array called result, and if our current node is the end of a word, i.e. an orange node, we append the prefix to the result array. If x is not the end of a word, then we can simply ignore this, as we are only interested in sorting orange nodes and not blue nodes.
+Our algorithm works by initializing an empty string prefix that contains all bits on the current path from the root node to our current node. We have an array called result, and if our current node is the end of a word, i.e. an orange node, we append the prefix to the result array. If $x$ is not the end of a word, then we can simply ignore this, as we are only interested in sorting orange nodes and not blue nodes.
 
-For each node we call the \method{Lexicographically-Sort-Recursive} algorithm on both the left child and the right child but we first check if these exists, i.e. being NIL, otherwise we can ignore the respective child/children. We check the left child first because we want our algorithm to sort in lexicographically increasing order. In the code it could also be possible to use the value NULL for comparing, however, having the NIL nodes illustrates the point on the radix tree graphic.
+For each node we call the \method{Lexicographically-Sort-Recursive} algorithm on both the left child and the right child but we first check if these exists, i.e. being $NIL$, otherwise we can ignore the respective child/children. We check the left child first because we want our algorithm to sort in lexicographically increasing order. In the code it could also be possible to use the value $NULL$ for comparing, however, having the $NIL$ nodes illustrates the point on the radix tree graphic.
 
 For the left and right child we extend our result array with a subset of their result, and on each iteration we return the array result.
 
@@ -165,12 +165,12 @@ In the pseudo code we pass the unsorted set of numbers $S$ as an argument to \me
 \begin{center}
 	\begin{minipage}{12cm}
 		\begin{algorithmic}
-			\Procedure{lexicographically-sort}{$S$}
+			\Procedure{Lexicographically-Sort}{$S$}
 			\State{$Y=$\Call{ Build-RadixTree}{S}}
 			\State{$prefix=""$}
 			// initialize an empty string prefix
 
-			\State{$result =$\Call{ lexicographically-sort-recursive}{$Y.root$, $prefix$}}
+			\State{$result =$\Call{ Lexicographically-Sort-Recursive}{$Y.root$, $prefix$}}
 			// recursively sort radix tree data structure by passing an empty string prefix
 
 			\State{$print(result)$}
@@ -180,7 +180,7 @@ In the pseudo code we pass the unsorted set of numbers $S$ as an argument to \me
 
 			\EndProcedure{}
 
-			\Procedure{lexicographically-sort-recursive}{$x$, $prefix$}
+			\Procedure{Lexicographically-Sort-Recursive}{$x$, $prefix$}
 			\State{$result = []$} // for each recursive call create an empty result array. This array will later be returned
 
 			\If{$x.isEndOfWord == true$}
@@ -189,13 +189,13 @@ In the pseudo code we pass the unsorted set of numbers $S$ as an argument to \me
 
 			\vspace{3mm}
 			\If{$x.left \neq NIL$}
-			\State{$sLeft=$\Call{lexicographically-sort-recursive}{$x.left$, $prefix + $"0"}}
+			\State{$sLeft=$\Call{Lexicographically-Sort-Recursive}{$x.left$, $prefix + $"0"}}
 			\State{$result.extend(sLeft)$} % https://www.programiz.com/python-programming/methods/list/extend
 			\EndIf{}
 			\vspace{3mm}
 
 			\If{$x.right \neq NIL$}
-			\State{$sRight=$\Call{lexicographically-sort-recursive}{$x.right$, $prefix + $"1"}}
+			\State{$sRight=$\Call{Lexicographically-Sort-Recursive}{$x.right$, $prefix + $"1"}}
 			\State{$result.extend(sRight)$}
 			\EndIf{}
 
