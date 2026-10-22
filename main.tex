@@ -162,7 +162,7 @@ For each node we call the \method{Lexicographically-Sort-Recursive} algorithm on
 
 For the left and right child we extend our result array with a subset of their result, and on each iteration we return the array result.
 
-In the pseudo code we pass the unsorted set of numbers $S$ as an argument to \method{Lexicographically-Sort}. We then build the tree using \method{Build-RadixTree} that returns $Y$. $Y$ is the radix tree, and it holds the variable $Y.root$ which is a pointer to the root node that the first recursive call uses.
+In the pseudo code we pass the unsorted set of numbers $S$ as an argument to \method{Lexicographically-Sort}. We then build the tree using \method{Build-Radix-Tree} that returns $Y$. $Y$ is the radix tree, and it holds the variable $Y.root$ which is a pointer to the root node that the first recursive call uses.
 
 % S er sættet af tal
 % Y er radix tree med Y.root
@@ -171,7 +171,7 @@ In the pseudo code we pass the unsorted set of numbers $S$ as an argument to \me
 	\begin{minipage}{12cm}
 		\begin{algorithmic}
 			\Procedure{Lexicographically-Sort}{$S$}
-			\State{$Y=$\Call{ Build-RadixTree}{S}}
+			\State{$Y=$\Call{ Build-Radix-Tree}{S}}
 			\State{$prefix=""$}
 			// initialize an empty string prefix
 
