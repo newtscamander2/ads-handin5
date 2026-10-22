@@ -42,7 +42,7 @@
     202606296 Frederik Dommer Løvbjerg Plum
 }
 
-%\date{September 1, 2025}  % Use \date to set a specific date
+\date{23. October, 2026}  % Use \date to set a specific date
 
 \begin{document}
 
@@ -106,7 +106,7 @@ An example of a radix tree could be:
 ]
 ]
 }
-\begin{figure}[h]
+\begin{figure}[H]
 	\caption{An example of a radix tree with the empty nodes colored blue and the actual nodes colored orange.}
 	\centering
 \end{figure}
@@ -218,8 +218,6 @@ In the pseudo code we pass the unsorted set of numbers $S$ as an argument to \me
 
 Here on the radix tree we have added the $NIL$ nodes visually for demonstrational purposes. It would also work to just assign the value $NULL$ in the code.
 
-
-
 \radixset{dir=down}
 
 \radixtree{
@@ -229,17 +227,17 @@ Here on the radix tree we have added the $NIL$ nodes visually for demonstrationa
 ]
 ]
 }
-\begin{figure}[h]
+\begin{figure}[H]
 	\caption{An example of a radix tree with the empty nodes colored blue and the actual nodes colored orange.}
 	\centering
 \end{figure}
+Output from \method{Lexicographically-Sort}:
 
-Output from lexicographically-sort:
 \radixset{dir=right}
 \radixtree{
 [0, col=orange [011, col=orange [10, col=orange [100, col=orange [1011, col=orange]]]]]
 }
-\begin{figure}[h]
+\begin{figure}[H]
 	\caption{Sorted output from \method{Lexicographically-Sort}}
 	\centering
 \end{figure}
