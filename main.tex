@@ -192,13 +192,13 @@ In the pseudo code we pass the unsorted set of numbers $S$ as an argument to \me
 
 			\vspace{3mm}
 			\If{$x.left \neq NIL$}
-			\State{$sLeft=$\Call{Lexicographically-Sort-Recursive}{$x.left$, $prefix + $"0"}}
+			\State{sLeft=\Call{Lexicographically-Sort-Recursive}{$x.left$, $prefix + $"0"}}
 			\State{$result.extend(sLeft)$} % https://www.programiz.com/python-programming/methods/list/extend
 			\EndIf{}
 			\vspace{3mm}
 
 			\If{$x.right \neq NIL$}
-			\State{$sRight=$\Call{Lexicographically-Sort-Recursive}{$x.right$, $prefix + $"1"}}
+			\State{sRight=\Call{Lexicographically-Sort-Recursive}{$x.right$, $prefix + $"1"}}
 			\State{$result.extend(sRight)$}
 			\EndIf{}
 
