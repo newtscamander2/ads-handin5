@@ -147,7 +147,7 @@ We can now build our radix three in $\Theta(n)$ time. This is because when build
 
 \section*{Sorting strings using a Radix tree Lukas writes this section}
 
-To sort a radix tree data structure, we can use a simple recursive algorithm called lexicographically-sort-recursive called through a wrapper function called lexicographically-sort since it in the beginning needs to initialize some variables.
+To sort a radix tree data structure, we can use a simple recursive algorithm called \method{Lexicographically-Sort-Recursive} called through a wrapper function called \method{Lexicographically-Sort} since it in the beginning needs to initialize some variables.
 
 \vspace{2mm}
 
@@ -156,8 +156,6 @@ Our algorithm works by initializing an empty string prefix that contains all bit
 For each node we call the \method{Lexicographically-Sort-Recursive} algorithm on both the left child and the right child but we first check if these exists, i.e. being NIL, otherwise we can ignore the respective child/children. We check the left child first because we want our algorithm to sort in lexicographically increasing order. In the code it could also be possible to use the value NULL for comparing, however, having the NIL nodes illustrates the point on the radix tree graphic.
 
 For the left and right child we extend our result array with a subset of their result, and on each iteration we return the array result.
-
-Since we visit every node exactly once with this algorithm our running time is $\Theta(n)$, where $n$ is the number of bits in total. We of course assume that the tree is built already for our algorithm to work.
 
 In the pseudo code we pass the unsorted set of numbers $S$ as an argument to \method{Lexicographically-Sort}. We then build the tree using \method{Build-RadixTree} that returns $Y$. $Y$ is the radix tree, and it holds the variable $Y.root$ which is a pointer to the root node that the first recursive call uses.
 
