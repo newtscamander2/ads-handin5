@@ -177,8 +177,8 @@ In the pseudo code we pass the unsorted set of numbers $S$ as an argument to \me
 			\State{$result =$\Call{ Lexicographically-Sort-Recursive}{$Y.root$, $prefix$}}
 			// recursively sort radix tree data structure by passing an empty string prefix
 
-			\State{$print(result)$}
-			// print sorted result array to screen
+			\State{$printArray(result)$}
+			// print sorted result array to screen.
 
 			\vspace{5mm}
 
@@ -193,17 +193,17 @@ In the pseudo code we pass the unsorted set of numbers $S$ as an argument to \me
 
 			\vspace{3mm}
 			\If{$x.left \neq NIL$}
-      \State \mbox{$sLeft =$
-      \Call{Lexicographically-Sort-Recursive}
-       {$x.left, prefix + \text{``0''}$}}
+			\State \mbox{$sLeft =$
+				\Call{Lexicographically-Sort-Recursive}
+				{$x.left, prefix + \text{``0''}$}}
 			\State{$result.extend(sLeft)$} % https://www.programiz.com/python-programming/methods/list/extend
 			\EndIf{}
 			\vspace{3mm}
 
 			\If{$x.right \neq NIL$}
-      \State \mbox{$sRight =$
-      \Call{Lexicographically-Sort-Recursive}
-       {$x.right, prefix + \text{``1''}$}}
+			\State \mbox{$sRight =$
+				\Call{Lexicographically-Sort-Recursive}
+				{$x.right, prefix + \text{``1''}$}}
 			\State{$result.extend(sRight)$}
 			\EndIf{}
 
