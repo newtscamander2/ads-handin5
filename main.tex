@@ -112,10 +112,12 @@ An example of a radix tree could be:
 	\centering
 \end{figure}
 
+If we would just call \method{Greater-Than} on each string for each created node in the tree, then we'd end up with a very slow process of creating our radix tree since \method{Greater-Than} is $O(\min{p, q})$ which is slower than using the described method of going left or right by looking at the current bit representing our current depth.
+
 \begin{center}
 	\begin{minipage}{12cm}
 		\begin{algorithmic}
-			\Procedure{Build-RadixTree}{$S$}
+			\Procedure{Build-Radix-Tree}{$S$}
 			\For{$s = 1 \rightarrow |S|$}
 			\State{$a = S[s]$}
 			\State{$node = Y.root$}
