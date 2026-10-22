@@ -51,6 +51,9 @@
 \end{exercise}
 
 \section*{Comment}
+1.
+
+
 \section*{Our solution}
 
 \section*{Comparing Strings}
@@ -88,9 +91,9 @@ We can now write out or pseudo code for determining if a string is greater than 
 \end{center}
 
 \section*{Building a Radix tree}
-When building a radix tree the main idea is to use the first rule and compare our bits as they go. This way we can choose to go left or right wether our current bit (based on the current depth in the tree) is $0$ or $1$.
+When building a radix tree the main idea is to use rule one from the exercise statement and compare our bits as they go. This way we can choose to go left or right wether our current bit (based on the current depth in the tree) is $0$ or $1$.
 
-For  this to work we need to create empty nodes that are not part of our set, but they are required since we need the depth of the tree to go down to the longest string.
+For this to work we need to create empty nodes that are not part of our set, but they are required since we need the depth of the tree to go down to the longest string. In graphics we will denote the empty nodes with blue and the nodes that hold values with orange.
 
 This ensures that strings on the left are always smaller than strings on the right.
 
