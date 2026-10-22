@@ -15,6 +15,8 @@
 \usepackage{subfiles}
 \usepackage{xcolor}
 
+\newcommand{\method}[1]{\textsc{#1}}
+
 \usepackage[col=teal]{radix-trees}   % package options
 \radixset{dir=down}                 % document-wide
 
@@ -86,6 +88,27 @@ We can now write out or pseudo code for determining if a string is greater than 
 \end{center}
 
 \section*{Building a Radix tree}
+When building a radix tree the main idea is to use the first rule and compare our bits as they go. This way we can choose to go left or right wether our current bit (based on the current depth in the tree) is $0$ or $1$.
+
+For  this to work we need to create empty nodes that are not part of our set, but they are required since we need the depth of the tree to go down to the longest string.
+
+This ensures that strings on the left are always smaller than strings on the right.
+
+An example of a radix tree could be:
+\radixset{dir=down}
+
+\radixtree{
+[{}, elabel=r, col=blue
+[0, elabel=0, col=orange [NIL, col=black][{}, elabel=1, col=blue [NIL, col=black][011, elabel=1, col=orange [NIL, col=black] [NIL, col=black]]]]
+[{}, elabel=1, col=blue [10, elabel=0, col=orange [100, elabel=0, col=orange [NIL, col=black] [NIL, col=black]][{}, elabel=1, col=blue [1011, elabel=1, col=orange [NIL, col=black] [NIL, col=black]]]][NIL, col=black]]
+]
+]
+}
+\begin{figure}[h]
+\caption{An example of a radix tree with the empty nodes colored blue and the actual nodes colored orange.}
+\centering
+\end{figure}
+
 \begin{center}
 	\begin{minipage}{12cm}
 		\begin{algorithmic}
@@ -97,15 +120,23 @@ We can now write out or pseudo code for determining if a string is greater than 
 			\For{$i = 0 \rightarrow |a|-1$}
 			\If{$a_i < 1$}
 			//Left
+      \If{$node.left == NIL$}
+      \State{$node.left = \text{New }node$}
+      \EndIf
+
 			\State{$node = node.left$}
 			\Else{}
 			//Right
+      \If{$node.right == NIL$}
+      \State{$node.right = \text{New }node$}
+      \EndIf
+
 			\State{$node = node.right$}
 			\EndIf
 
 			\EndFor
 			//Save
-			\State{$node.exists = 1$} //All nodes are initialized with exists = 0
+			\State{$node.isEndOfWord = true$} //All nodes are initialized with isEndOfWord = false
 
 			\EndFor
 			\EndProcedure
@@ -182,11 +213,25 @@ Here on the radix tree we have added the NIL nodes visually for demonstrational 
 ]
 ]
 }
+\begin{figure}[h]
+\caption{An example of a radix tree with the empty nodes colored blue and the actual nodes colored orange.}
+\centering
+\end{figure}
 
 Output from lexicographically-sort:
 \radixset{dir=right}
 \radixtree{
 [0, col=orange [011, col=orange [10, col=orange [100, col=orange [1011, col=orange]]]]]
 }
+\begin{figure}[h]
+\caption{Sorted output from \method{Lexicographically-Sort}}
+\centering
+\end{figure}
+
+The running time of our sorting algorithm is $O(n)$, since it goes over every in the tree once, and every tree can at most have $n$ nodes. (Here it is important to remember that $n$ is the sum of bits).
+
+The tree can however have less than $n$ nodes and it is therefore not $\Omega(n)$. This is because nodes can be reused and the paths to nodes are reused for most nodes, making the number of nodes $< n$.
+
+At the start of \method{Lexicographically-Sort}, we however call \method{BuildRadixTree} which has the running-time $\Theta(n)$. The $\Theta(n)$ dominates which means \method{Lexicographically-Sort} ends up with a tight-bound running-time of $\Theta(n)$.
 
 \end{document}
