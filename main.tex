@@ -153,27 +153,37 @@ To sort a radix tree data structure, we can use a simple recursive algorithm cal
 
 Our algorithm works by initializing an empty string prefix that contains all bits on the current path from the root node to our current node. We have an array called result, and if our current node is the end of a word, i.e. an orange node, we append the prefix to the result array. If x is not the end of a word, then we can simply ignore this, as we are only interested in sorting orange nodes and not blue nodes.
 
-For each node we call the lexicographically-sort-recursive algorithm on both the left child and the right child but we first check if these exists, i.e. being NIL, otherwise we can ignore the respective child/children. We check the left child first because we want our algorithm to sort in lexicographically increasing order.
+For each node we call the lexicographically-sort-recursive algorithm on both the left child and the right child but we first check if these exists, i.e. being NIL, otherwise we can ignore the respective child/children. We check the left child first because we want our algorithm to sort in lexicographically increasing order. In the code it could also be possible to use the value NULL for comparing, however, having the NIL nodes illustrates the point on the radix tree graphic.
 
 For the left and right child we extend our result array with a subset of their result, and on each iteration we return the array result.
 
-Since we visit every node exactly once with this algorithm our running time is $\Theta(n)$, where $n$ is the number of nodes/bits in total. We of course assume that the tree is built already for our algorithm to work.
+Since we visit every node exactly once with this algorithm our running time is $\Theta(n)$, where $n$ is the number of bits in total. We of course assume that the tree is built already for our algorithm to work.
+
+In the pseudo code we pass the unsorted set of numbers $S$ as an argument to lexicographically-sort. We then build the tree using BuildRadixTree that returns $Y$. $Y$ is the radix tree, and it holds the variable $Y.root$ which is a pointer to the root node that the first recursive call uses.
+
+% S er sættet af tal
+% Y er radix tree med Y.root
 
 \begin{center}
 	\begin{minipage}{12cm}
 		\begin{algorithmic}
-			\Procedure{lexicographically-sort}{$x$}
+			\Procedure{lexicographically-sort}{$S$}
+			\State{$Y=$\Call{ BuildRadixTree}{S}}
 			\State{$prefix=""$}
+			// initialize an empty string prefix
 
-			\Call{$result =$ lexicographically-sort-recursive}{$x$, $prefix$}
+			\State{$result =$\Call{ lexicographically-sort-recursive}{$Y.root$, $prefix$}}
+			// recursively sort radix tree data structure by passing an empty string prefix
+
 			\State{$print(result)$}
+			// print sorted result array to screen
 
 			\vspace{5mm}
 
 			\EndProcedure{}
 
 			\Procedure{lexicographically-sort-recursive}{$x$, $prefix$}
-			\State{$result = []$}
+			\State{$result = []$} // for each recursive call create an empty result array. This array will later be returned
 
 			\If{$x.isEndOfWord == true$}
 			\State{$result.append(prefix)$}
