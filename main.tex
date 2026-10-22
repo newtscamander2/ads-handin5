@@ -249,6 +249,6 @@ The running time of our sorting algorithm is $O(n)$, since it goes over every in
 
 The tree can however have less than $n$ nodes and it is therefore not $\Omega(n)$. This is because nodes can be reused and the paths to nodes are reused for most nodes, making the number of nodes $< n$.
 
-At the start of \method{Lexicographically-Sort}, we however call \method{BuildRadixTree} which has the running-time $\Theta(n)$. The $\Theta(n)$ dominates which means \method{Lexicographically-Sort} ends up with a tight-bound running-time of $\Theta(n)$.
+At the start of \method{Lexicographically-Sort}, we however call \method{Build-Radix-Tree} which has the running-time $\Theta(n)$. The $\Theta(n)$ dominates which means \method{Lexicographically-Sort} ends up with a tight-bound running-time of $\Theta(n)$.
 
 \end{document}
