@@ -105,8 +105,8 @@ An example of a radix tree could be:
 ]
 }
 \begin{figure}[h]
-\caption{An example of a radix tree with the empty nodes colored blue and the actual nodes colored orange.}
-\centering
+	\caption{An example of a radix tree with the empty nodes colored blue and the actual nodes colored orange.}
+	\centering
 \end{figure}
 
 \begin{center}
@@ -120,16 +120,16 @@ An example of a radix tree could be:
 			\For{$i = 0 \rightarrow |a|-1$}
 			\If{$a_i < 1$}
 			//Left
-      \If{$node.left == NIL$}
-      \State{$node.left = \text{New }node$}
-      \EndIf
+			\If{$node.left == NIL$}
+			\State{$node.left = \text{New }node$}
+			\EndIf
 
 			\State{$node = node.left$}
 			\Else{}
 			//Right
-      \If{$node.right == NIL$}
-      \State{$node.right = \text{New }node$}
-      \EndIf
+			\If{$node.right == NIL$}
+			\State{$node.right = \text{New }node$}
+			\EndIf
 
 			\State{$node = node.right$}
 			\EndIf
@@ -145,7 +145,7 @@ An example of a radix tree could be:
 \end{center}
 We can now build our radix three in $\Theta(n)$ time. This is because when building the tree you are required to go through all bits of a strings. The sum of all bits is $n$. The build algorithm is therefore $O(n)$. It is not possible to build a radix tree without going through all the $n$ bits and it is therefore also $\Omega(n)$. Since it is both $O(n)$ and $\Omega(n)$ then it is also $\Theta(n)$.
 
-\section*{Sorting strings using a Radix tree Lukas writes this section}
+\section*{Sorting strings using a Radix tree}
 
 To sort a radix tree data structure, we can use a simple recursive algorithm called \method{Lexicographically-Sort-Recursive} called through a wrapper function called \method{Lexicographically-Sort} since it in the beginning needs to initialize some variables.
 
@@ -222,8 +222,8 @@ Here on the radix tree we have added the NIL nodes visually for demonstrational 
 ]
 }
 \begin{figure}[h]
-\caption{An example of a radix tree with the empty nodes colored blue and the actual nodes colored orange.}
-\centering
+	\caption{An example of a radix tree with the empty nodes colored blue and the actual nodes colored orange.}
+	\centering
 \end{figure}
 
 Output from lexicographically-sort:
@@ -232,8 +232,8 @@ Output from lexicographically-sort:
 [0, col=orange [011, col=orange [10, col=orange [100, col=orange [1011, col=orange]]]]]
 }
 \begin{figure}[h]
-\caption{Sorted output from \method{Lexicographically-Sort}}
-\centering
+	\caption{Sorted output from \method{Lexicographically-Sort}}
+	\centering
 \end{figure}
 
 The running time of our sorting algorithm is $O(n)$, since it goes over every in the tree once, and every tree can at most have $n$ nodes. (Here it is important to remember that $n$ is the sum of bits).
